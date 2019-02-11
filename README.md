@@ -1,18 +1,32 @@
-# Selenium testing project
+# Selenium testing project (SeleniumDotNetCore)
 
-SeleniumDotNetCore
+Check out the Samples folder for som sample tests
 
-Run only specific tests when using dotnet test
+Running selective unit tests:
 
-To run just the individule tests you can target using filters:
+Runs tests whose FullyQualifiedName contains Method
+```
+dotnet test --filter Name=TryCatch
+dotnet test --filter Name=ScreenshotTimeDate
+dotnet test --filter Name=FindElement
+dotnet test --filter Name=Chrome
 
 ```
-dotnet test --filter Name=Chrome_Headless
-dotnet test --filter Name=TestName2
+
+Runs tests which are annotated with categorys
 ```
-You could also traget all groups in a catogory
+dotnet test --filter TestCategory=WebDrivers
 ```
-dotnet test --filter TestCategory=Browsers
+
+Runs tests which are annotated with a priority
+```
+dotnet test --filter Priority=1
+```
+
+Using conditional operators | and &
+Run tests which have TryCatch in Name or Priority is 1
+```
+dotnet test --filter "Name=TryCatch|Priority=1"
 ```
 
 Intresting reading:

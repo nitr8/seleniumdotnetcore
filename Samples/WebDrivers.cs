@@ -16,6 +16,8 @@ namespace ST.Test.Samples
         string url = Variables.googleURL;
         string log = Variables.ieLog;
 
+        [TestCategory("WebDrivers")]
+        [Priority(1)]
         [TestMethod]
         public void Chrome()
         {
@@ -24,6 +26,8 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
+        [TestCategory("WebDrivers")]
+        [Priority(2)]
         [TestMethod]
         public void Chrome_Service()
         {
@@ -34,7 +38,7 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Chrome_Headless()
         {
             string driverPath = "/opt/selenium/";
@@ -51,6 +55,7 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
+        [TestCategory("WebDrivers")]
         [TestMethod]
         public void Firefox()
         {
@@ -59,6 +64,7 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
+        [TestCategory("WebDrivers")]
         [TestMethod]
         public void InternetExplorer()
         {
@@ -75,6 +81,7 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
+        [TestCategory("WebDrivers")]
         [TestMethod]
         public void InternetExplorer_Options()
         {
@@ -87,6 +94,7 @@ namespace ST.Test.Samples
             Driver.Dispose();
         }
 
+        [TestCategory("WebDrivers")]
         [TestMethod]
         public void InternetExplorer_Service()
         {

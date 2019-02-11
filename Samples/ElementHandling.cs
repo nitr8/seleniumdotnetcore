@@ -7,7 +7,7 @@ namespace ST.Test.Samples
     public class ElementHandling : SeleniumBase
     {
         [TestMethod]
-        public void TestName()
+        public void FindElement()
         {
             Driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
             //var link = Driver.FindElement(By.PartialLinkText("TFS Test API"));

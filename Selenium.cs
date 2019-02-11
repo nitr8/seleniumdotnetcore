@@ -20,31 +20,47 @@ namespace ST.Selenium.Test
         [TestInitialize()]
         public void SetupTest()
         {
-            // Setup webdriver
+            // Setup webdriver TBD detect if docker then use ChromeHeadless
             switch (Variables.useBrowser)
             {
                 case "Chrome":
                     Driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
-                case "ChromeOptions":
-                String driverPath = "/opt/selenium/";
-                String driverExecutableFileName = "chromedriver";
-                ChromeOptions options = new ChromeOptions();
-                options.AddArguments("headless");
-                options.AddArguments("no-sandbox");
-                options.BinaryLocation = "/opt/google/chrome/chrome";
-                ChromeDriverService service = ChromeDriverService.CreateDefaultService(driverPath,driverExecutableFileName);
-                Driver = new ChromeDriver(service,options,TimeSpan.FromSeconds(30));
-                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
-                Driver.Manage().Window.Maximize();
-                    //Driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+                case "ChromeService":
+                    var chromeService = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                    var chromeOptions = new ChromeOptions();
+                    chromeOptions.AddArguments("start-maximized"); //Start Chrome maximized
+                    chromeOptions.AddArguments("incognito");
+                    chromeOptions.AddArguments("disable-application-cache");
+                    chromeOptions.AddArguments("disk-cache-size=0");
+                    Driver = new ChromeDriver(chromeService, chromeOptions);
                     break;
+
+                case "ChromeHeadless":
+                    String driverPath = "/opt/selenium/";
+                    String driverExecutableFileName = "chromedriver";
+
+                    ChromeOptions options = new ChromeOptions();
+                    options.AddArguments("headless");
+                    options.AddArguments("no-sandbox");
+                    options.BinaryLocation = "/opt/google/chrome/chrome"; //Using a Chrome executable in a non-standard location
+
+                    ChromeDriverService service = ChromeDriverService.CreateDefaultService(driverPath,driverExecutableFileName);
+
+                    Driver = new ChromeDriver(service,options,TimeSpan.FromSeconds(30));
+                    Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
+                    Driver.Manage().Window.Maximize();
+                    break;
+
                 case "Firefox":
                     Driver = new FirefoxDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
+
                 case "InternetExplorer":
                     Driver = new InternetExplorerDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
+
                 case "InternetExplorerOptions":
                     var ieDriverOptions = new InternetExplorerOptions
                     {
@@ -55,6 +71,7 @@ namespace ST.Selenium.Test
                     };
                     Driver = new InternetExplorerDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ieDriverOptions);
                     break;
+
                 case "InternetExplorerService":
                     string log = Variables.ieLog;
                     var ieDriverService = InternetExplorerDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
@@ -64,9 +81,11 @@ namespace ST.Selenium.Test
                     ieServiceOptions.EnsureCleanSession = true;
                     Driver = new InternetExplorerDriver(ieDriverService, ieServiceOptions);
                     break;
+
                 case "Edge":
                     Driver = new EdgeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
+
                 default:
                     Driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
